@@ -1,48 +1,46 @@
 package com.xh.aop.activitys;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
+import com.xh.aop.AopManager;
 import com.xh.aop.IActivity;
 import com.xh.aop.R;
+import com.xh.aop.Test;
 
-public class MainActivity extends AppCompatActivity implements IActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.e("ddd", onSupportNavigateUp() + "");
+        Log.e("ddd", getApplicationContext() + "");
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
+//    @Override
+//    public boolean onSupportNavigateUp() {
+//        return super.onSupportNavigateUp();
+//    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
+//    @Override
+//    public Context getApplicationContext() {
+//        return super.getApplicationContext();
+//    }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void test(View view) {
+        try {
+            Class[] classes = new Class[]{IActivity.class};
+            IActivity activity = AopManager.createObject(Test.class, new String[]{"test"});
+            Log.e("ddd", activity.test());
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
     }
 }

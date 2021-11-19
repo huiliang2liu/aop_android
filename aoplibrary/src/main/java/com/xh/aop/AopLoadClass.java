@@ -20,10 +20,10 @@ import java.util.Map;
 
 public class AopLoadClass {
     private static Context context;
-    //    private static ClassLoadingStrategy wrapping;
+    private static ClassLoadingStrategy wrapping;
     private static ClassLoadingStrategy injecting;
     private static ClassLoader loader;
-//    private static Map<String, Class> nameMap = new HashMap<>();
+    private static Map<String, Class> nameMap = new HashMap<>();
 
     public static void setContext(Context context) {
         AopLoadClass.context = context.getApplicationContext();
@@ -34,11 +34,11 @@ public class AopLoadClass {
         if (context == null)
             throw new RuntimeException("context is null,you must set context");
         loader = context.getClassLoader();
-        if (injecting != null)
+        if (injecting != null && wrapping != null)
             return;
         synchronized (AopLoadClass.class) {
-//            if (wrapping == null)
-//                wrapping = new AndroidClassLoadingStrategy.Wrapping(context.getDir("wrapping", Context.MODE_PRIVATE));
+            if (wrapping == null)
+                wrapping = new AndroidClassLoadingStrategy.Wrapping(context.getDir("wrapping", Context.MODE_PRIVATE));
             if (injecting == null)
                 injecting = new AndroidClassLoadingStrategy.Injecting(context.getDir("injecting", Context.MODE_PRIVATE));
         }
@@ -79,6 +79,7 @@ public class AopLoadClass {
     }
 
 
+
     static Class loadService(Class parent, String[] methods) {
         return loadPrimary(parent, methods);
     }
@@ -89,24 +90,14 @@ public class AopLoadClass {
     }
 
 
-    static Class loadOrdinary(Class parent, String[] methods) {
+    static Class loadClass(Class parent, String[] methods) {
         init();
-        return createClass(parent, String.format("%s$XH", parent.getName()), methods, injecting);
+        return createClass(parent, String.format("%s$XH", parent.getName()), methods, wrapping);
     }
 
     static Class loadClass(Class parent, String name, String[] methods) {
         init();
-        return createClass(parent, name, methods, injecting);
-    }
-
-    static Class loadOrdinary(Class[] implement, String[] methods) {
-        init();
-        return createClass(Object.class, String.format("%s$XH", implement[0].getName()), methods, injecting);
-    }
-
-    static Class loadClass(Class[] implement, String name, String[] methods) {
-        init();
-        return createClass(Object.class, implement, name, methods, injecting);
+        return createClass(parent, name, methods, wrapping);
     }
 
 
@@ -117,22 +108,17 @@ public class AopLoadClass {
     }
 
     private static Class createClass(Class parent, String name, String[] methods, ClassLoadingStrategy strategy) {
-        return createClass(parent, null, name, methods, strategy);
-    }
-
-    private static Class createClass(Class parent, Class[] implement, String name, String[] methods, ClassLoadingStrategy strategy) {
 //        if (nameMap.containsKey(name))
 //            return nameMap.get(name);
         try {
             return loader.loadClass(name);
         } catch (Exception e) {
-            e.printStackTrace();
         }
         DynamicType.Builder builder = new ByteBuddy().subclass(parent);
-        if (implement != null && implement.length > 0) {
-            for (Class clazz : implement)
-                builder = builder.implement(clazz);
-        }
+//        if (implement != null && implement.length > 0) {
+//            for (Class clazz : implement)
+//                builder = builder.implement(clazz);
+//        }
         if (methods != null && methods.length > 0) {
             SingerAgentInterceptor interceptor = new SingerAgentInterceptor();
             for (String method : methods)

@@ -1,5 +1,13 @@
 package com.xh.aop;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Function;
+
 public class AopManager {
     public static Class loadActivity(Class parent, String[] methods) {
         return AopLoadClass.loadActivity(parent, methods);
@@ -17,19 +25,22 @@ public class AopManager {
 
 
     public static Class loadOrdinary(Class parent, String[] methods) {
-        return AopLoadClass.loadOrdinary(parent, methods);
+        return AopLoadClass.loadClass(parent, methods);
     }
 
     public static Class loadClass(Class parent, String name, String[] methods) {
         return AopLoadClass.loadClass(parent, name, methods);
     }
 
-    public static Class loadOrdinary(Class[] implement, String[] methods) {
-        return AopLoadClass.loadOrdinary(implement, methods);
-    }
 
-    public static Class loadClass(Class[] implement, String name, String[] methods) {
-        return AopLoadClass.loadClass(implement, name, methods);
+    public static String[] implement2method(Class[] implement) {
+        List<Method> list = new ArrayList();
+        for (Class clazz : implement) {
+            list.addAll(Arrays.asList(clazz.getDeclaredMethods()));
+        }
+        Set<String> methods = new HashSet<>();
+        list.stream().map((method) -> method.getName()).forEach((name) -> methods.add(name));
+        return methods.toArray(new String[methods.size()]);
     }
 
 

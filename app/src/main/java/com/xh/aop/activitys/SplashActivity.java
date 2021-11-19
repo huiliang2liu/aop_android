@@ -25,7 +25,7 @@ public class SplashActivity extends Activity {
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), AopManager.loadActivity(MainActivity.class, new String[]{"onCreate"})));
+                startActivity(new Intent(getApplicationContext(), AopManager.loadActivity(MainActivity.class, new String[]{"onCreate", "onSupportNavigateUp", "getApplicationContext"})));
             }
         });
         setContentView(tv);
