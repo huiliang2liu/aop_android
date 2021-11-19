@@ -28,6 +28,7 @@ public class SplashActivity extends Activity {
         tv.setText("这是开品");
         try {
             AopManager.setConfig(inputStream2string(getAssets().open("test.json")));
+            AopManager.setDebug(true);
         } catch (IOException e) {
             e.printStackTrace();
         }

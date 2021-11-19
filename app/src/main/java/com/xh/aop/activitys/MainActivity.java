@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public void test(View view) {
         try {
             Class[] classes = new Class[]{IActivity.class};
-            IActivity activity = AopManager.createObject(Test.class, new String[]{"test"});
+            IActivity activity = AopManager.createObject(Test.class);
             Log.e("ddd", activity.test());
         } catch (IllegalAccessException e) {
             e.printStackTrace();

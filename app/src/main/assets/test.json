@@ -1,7 +1,15 @@
 [
   {
     "class": "android.app.Activity",
-    "methods": ["onCreate"],
+    "methods": [
+      "onCreate"
+    ],
     "type": 1
+  },
+  {
+    "class": "com.xh.aop.IActivity",
+    "methods": [
+      "test"
+    ]
   }
 ]

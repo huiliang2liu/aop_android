@@ -15,8 +15,8 @@ public class SingerAgentInterceptor {
                               @SuperMethod Method superMethod,
                               @AllArguments Object[] args) throws Exception {
         long start = System.currentTimeMillis();
-        String name = method.getName();
-        Log.e(TAG, "before " + name);
+//        String name = method.getName();
+//        Log.e(TAG, "before " + name);
         Object ret = null;
         try {
             ret = superMethod.invoke(proxy, args);
@@ -24,7 +24,7 @@ public class SingerAgentInterceptor {
             e.printStackTrace();
         }
         Log.e(TAG, String.format("执行时间是：%s", System.currentTimeMillis() - start));
-        Log.e(TAG, "after " + name);
+//        Log.e(TAG, "after " + name);
         return ret;
     }
 }
