@@ -75,17 +75,17 @@ public class AopLoadClass {
 
 
     static Class loadActivity(Class parent, String[] methods) {
-        return loadPrimary(parent, "Activity", methods);
+        return loadPrimary(parent, methods);
     }
 
 
     static Class loadService(Class parent, String[] methods) {
-        return loadPrimary(parent, "Service", methods);
+        return loadPrimary(parent, methods);
     }
 
 
     static Class loadReceiver(Class parent, String[] methods) {
-        return loadPrimary(parent, "Receiver", methods);
+        return loadPrimary(parent, methods);
     }
 
 
@@ -110,10 +110,10 @@ public class AopLoadClass {
     }
 
 
-    private static Class loadPrimary(Class parent, String name, String[] methods) {
+    private static Class loadPrimary(Class parent, String[] methods) {
         init();
         String packageName = context.getPackageName();
-        return createClass(parent, String.format("%s.%s%s", packageName, parent.getSimpleName(), name), methods, injecting);
+        return createClass(parent, String.format("%s.%s", packageName, parent.getSimpleName()), methods, injecting);
     }
 
     private static Class createClass(Class parent, String name, String[] methods, ClassLoadingStrategy strategy) {

@@ -1,4 +1,4 @@
-package com.xh.aop;
+package com.xh.aop.activitys;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+
+import com.xh.aop.AopManager;
 
 public class SplashActivity extends Activity {
     @Override
@@ -23,7 +25,7 @@ public class SplashActivity extends Activity {
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), AopManager.loadActivity(Main.class, new String[]{"onCreate"})));
+                startActivity(new Intent(getApplicationContext(), AopManager.loadActivity(MainActivity.class, new String[]{"onCreate"})));
             }
         });
         setContentView(tv);

@@ -1,11 +1,14 @@
-package com.xh.aop;
+package com.xh.aop.activitys;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class Main extends AppCompatActivity implements IActivity{
+import com.xh.aop.IActivity;
+import com.xh.aop.R;
+
+public class MainActivity extends AppCompatActivity implements IActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
