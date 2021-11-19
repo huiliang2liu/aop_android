@@ -1,0 +1,7 @@
+[
+  {
+    "class": "android.app.Activity",
+    "methods": ["onCreate"],
+    "type": 1
+  }
+]

@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class AopLoadClass {
     private static Context context;
-    private static ClassLoadingStrategy wrapping;
+//    private static ClassLoadingStrategy wrapping;
     private static ClassLoadingStrategy injecting;
     private static ClassLoader loader;
     private static Map<String, Class> nameMap = new HashMap<>();
@@ -34,11 +34,13 @@ public class AopLoadClass {
         if (context == null)
             throw new RuntimeException("context is null,you must set context");
         loader = context.getClassLoader();
-        if (injecting != null && wrapping != null)
+        if (injecting != null
+//                && wrapping != null
+        )
             return;
         synchronized (AopLoadClass.class) {
-            if (wrapping == null)
-                wrapping = new AndroidClassLoadingStrategy.Wrapping(context.getDir("wrapping", Context.MODE_PRIVATE));
+//            if (wrapping == null)
+//                wrapping = new AndroidClassLoadingStrategy.Wrapping(context.getDir("wrapping", Context.MODE_PRIVATE));
             if (injecting == null)
                 injecting = new AndroidClassLoadingStrategy.Injecting(context.getDir("injecting", Context.MODE_PRIVATE));
         }
@@ -79,7 +81,6 @@ public class AopLoadClass {
     }
 
 
-
     static Class loadService(Class parent, String[] methods) {
         return loadPrimary(parent, methods);
     }
@@ -92,12 +93,12 @@ public class AopLoadClass {
 
     static Class loadClass(Class parent, String[] methods) {
         init();
-        return createClass(parent, String.format("%s$XH", parent.getName()), methods, wrapping);
+        return createClass(parent, String.format("%s$XH", parent.getName()), methods, injecting);
     }
 
     static Class loadClass(Class parent, String name, String[] methods) {
         init();
-        return createClass(parent, name, methods, wrapping);
+        return createClass(parent, name, methods, injecting);
     }
 
 
